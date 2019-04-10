@@ -1,0 +1,131 @@
+#单向链表数据类型
+class Node(object):
+    """节点"""
+    def __init__(self, data, n_node=None):
+        self.data = data
+        self.next = n_node
+
+
+class Single_link(object):
+    """单向链表"""
+    def __init__(self, node=None):
+        self.__header = node
+
+    def is_empty(self):# 链表是否为空
+        return self.__header == None
+
+    def length(self):# 链表长度
+        count = 0
+        cur = self.__header
+        while cur != None:
+            count += 1
+            cur = cur.next
+        return count
+
+    def travel(self):# 遍历整个链表
+        cur = self.__header
+        while cur != None:
+            print(cur.data, end=" ")
+            cur = cur.next
+        print("")
+
+    def add(self, item):# 链表头部添加元素
+        node = Node(item)
+        node.next = self.__header
+        self.__header = node
+
+    def append(self, item):# 链表尾部添加元素
+        node = Node(item)
+        if self.is_empty():
+            self.__header = node
+        else:
+            cur = self.__header
+            while cur.next != None:
+                cur = cur.next
+            else:
+                cur.next = node
+
+    def insert(self, pos, item):# 指定位置添加元素
+        node = Node(item)
+        if pos <= 0:
+            self.add(item)
+        elif pos > (self.length()):
+            self.append(item)
+        else:
+            count = 1
+            cur = self.__header
+            while count < pos:
+                count += 1
+                cur = cur.next
+            else:
+                node.next = cur.next
+                cur.next = node
+
+    def remove(self, item):# 删除节点
+        cur = self.__header
+        pre = None
+        while cur != None:
+            if cur.data == item:
+                if pre == None:
+                    self.__header = cur.next
+                else:
+                    pre.next = pre.next.next
+                break
+            else:
+                pre = cur
+                cur = cur.next
+
+    def search(self, item):# 查找节点是否存在
+        cur = self.__header
+        while cur != None:
+            if cur.data == item:
+                return True
+            else:
+                cur = cur.next
+        else:
+            return False
+
+    def rev(self):# 链表逆置
+        p = None
+        while self.__header != None:
+            q = self.__header # 从前往后依次取出节点q
+            self.__header = q.next
+            q.next = p # 将q的下一个节点指向p
+            p = q # 将q赋值给p
+        self.__header = p # 将头部指向p
+
+    def sort(self):# 链表排序
+        if self.__header == None:
+            return
+        cur_node = self.__header.next
+        while cur_node != None:
+            cur_node_data = cur_node.data
+            p = self.__header
+            while p is not cur_node and p.data <= cur_node_data:
+                p = p.next
+            while p != cur_node:
+                y = p.data
+                p.data = cur_node_data
+                cur_node_data = y
+                p = p.next
+            cur_node.data = cur_node_data
+            cur_node = cur_node.next
+
+
+if __name__ == '__main__':
+    single_link = Single_link()
+    single_link.append(3)
+    single_link.append(34)
+    single_link.append(12)
+    single_link.append(63)
+    single_link.append(45)
+    single_link.travel()
+    print("*"*30)
+    print("链表逆置")
+    single_link.rev()
+    single_link.travel()
+    print("*"*30)
+    print("链表排序")
+    single_link.sort()
+    single_link.travel()
+
