@@ -1,0 +1,20 @@
+def binary_search(a, first, last, num):
+    """二分查找,递归方法"""
+    if first > last:
+        return False
+    n = (first + last) // 2
+    if num < a[n]:
+        data = binary_search(a, first, n-1, num)
+    elif num > a[n]:
+        data = binary_search(a, n+1, last, num)
+    else:
+        return a[n]
+    return data
+    
+a_list = [54,26,93,17,77,31,44,55,20]
+print(a_list)
+a_list.sort()
+print(a_list)
+# 用二分查找30是否在列表中
+temp = binary_search(a_list,0, len(a_list)-1, 30)
+print(temp)
